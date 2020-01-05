@@ -1,0 +1,48 @@
+<div class="content">
+    <div class="header">
+        <div class="item">
+            <mat-form-field>
+                <input matInput  (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+        </div>
+    </div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 tableWidth">
+
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef > Id </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef > Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="phone">
+            <th mat-header-cell *matHeaderCellDef > Phone </th>
+            <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="city">
+            <th mat-header-cell *matHeaderCellDef > City </th>
+            <td mat-cell *matCellDef="let element"> {{element.address.city}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="address_line1">
+            <th mat-header-cell *matHeaderCellDef > AddressLine1 </th>
+            <td mat-cell *matCellDef="let element"> {{element.address.address_line1}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="address_line2">
+            <th mat-header-cell *matHeaderCellDef > AddressLine2 </th>
+            <td mat-cell *matCellDef="let element"> {{element.address.address_line2}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="postal_code">
+            <th mat-header-cell *matHeaderCellDef > Postal Code </th>
+            <td mat-cell *matCellDef="let element"> {{element.address.postal_code}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

@@ -1,0 +1,12 @@
+.item{
+    width: 50%;
+}
+
+.header {
+    display: flex;
+    width: 70%;
+    margin: auto;
+}
+.right {
+    float: right;
+}
