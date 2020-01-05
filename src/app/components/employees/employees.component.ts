@@ -65,6 +65,14 @@ export class EmployeesComponent implements OnInit {
       }
     });
   }
+  isPhoneNumber(data) {
+    const pattern = /^[0-9]+$/;
+    if (data.match(pattern)) {
+      return data
+    } else {
+      return 'NA'
+    }
+  }
 
   ngOnDestroy() {
 
