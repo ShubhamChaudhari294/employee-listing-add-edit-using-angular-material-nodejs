@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource, Sort } from '@angular/material'
 import { Router } from '@angular/router';
-import { Employees } from 'src/app/interfaces';
+import { Employee } from 'src/app/interfaces';
 import { EmployeeService } from 'src/app/services/employee.service';
 @Component({
   selector: 'app-employees',
@@ -10,7 +10,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 })
 export class EmployeesComponent implements OnInit {
 
-  public employeesData: Employees[];
+  public employeesData: Employee[];
   public displayedColumns: string[];
   public dataSource;
   constructor(private employeeService: EmployeeService,
@@ -21,6 +21,11 @@ export class EmployeesComponent implements OnInit {
       this.employeesData = data;
       this.displayedColumns = ['id', 'name', 'phone', 'city', 'address_line1', 'address_line2', 'postal_code', 'action'];
       this.dataSource = new MatTableDataSource(this.employeesData);
+      // Filter for Name and City
+      this.dataSource.filterPredicate = (data: Employee, filter) => {
+        const dataStr = data.name + data.address.city;
+        return dataStr.toLowerCase().indexOf(filter) != -1;
+      }
     })
   }
   sortData(sort: Sort) {
@@ -44,6 +49,7 @@ export class EmployeesComponent implements OnInit {
       }
     });
     this.dataSource = new MatTableDataSource(this.employeesData);
+
   }
 
   compare(a: number | string, b: number | string, isAsc: boolean) {
@@ -55,16 +61,22 @@ export class EmployeesComponent implements OnInit {
   }
 
   redirectoToadd() {
-    this.router.navigate(['/add'])
+    this.router.navigate(['/employees/add'])
   }
 
   redirectToEdit(rowData) {
-    this.router.navigate(["/edit", rowData.id], {
+    //Saving data to avoid API call while loading edit page
+    this.router.navigate(["/employees/edit", rowData.id], {
       state: {
         data: rowData
       }
     });
   }
+
+  ngOnDestroy() {
+
+  }
+
   isPhoneNumber(data) {
     const pattern = /^[0-9]+$/;
     if (data.match(pattern)) {
@@ -72,9 +84,5 @@ export class EmployeesComponent implements OnInit {
     } else {
       return 'NA'
     }
-  }
-
-  ngOnDestroy() {
-
   }
 }

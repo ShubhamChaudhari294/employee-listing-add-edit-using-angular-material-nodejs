@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs'
 import { tap } from 'rxjs/operators'
-import { Employees } from '../interfaces';
+import { Employee } from '../interfaces';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
   public url = 'http://localhost:3001';
-  public headers = new HttpHeaders({
-    'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
-  public options = { headers: this.headers };
   constructor(private http: HttpClient) { }
-  getEmployees(): Observable<Employees[]> {
+  getEmployees(): Observable<Employee[]> {
     return this.http
       .get<any>(this.url + '/employees')
       .pipe(
@@ -22,7 +19,7 @@ export class EmployeeService {
 
       );
   }
-  addEmployee(data: Employees){
+  addEmployee(data: Employee): Observable<any>{
     return this.http
       .post<any>(this.url+ '/employees', data)
       .pipe(
@@ -32,7 +29,7 @@ export class EmployeeService {
 
       );
   }
-  editEmployee(data: Employees, id){
+  editEmployee(data: Employee, id): Observable<any>{
     return this.http
       .post<any>(this.url+ '/employees/'+ id, data)
       .pipe(
@@ -40,6 +37,15 @@ export class EmployeeService {
           return response;
         }),
 
+      );
+  }
+  getEmployeeById(id): Observable<Employee> {
+    return this.http
+      .get<any>(this.url + '/employees/' + id)
+      .pipe(
+        tap(response => {
+          return response;
+        }),
       );
   }
 }
